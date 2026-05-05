@@ -73,19 +73,21 @@ int main(int argc, char **argv) {
 	save sav;
 	int rv;
 
-	if (argc != 2) {
-		printf("usage: %s <path to partitionA.bin>\n", argv[0]);
+	if (argc != 3) {
+		printf("usage: %s <path to partitionA.bin> <output extracted path>\n", argv[0]);
 		printf("note: the input file will be overwritten!\n");
 		return 1;
 	}
+
+	mkdir(argv[2], 0777);
 
 	if (!save_init(&sav, argv[1])) {
 		fprintf(stderr, "failed initializing raw save\n");
 		goto bad;
 	}
 
-	if (!save_perform_secure_erase(&sav)) {
-		fprintf(stderr, "failed secure erasing file\n");
+	if (!save_extract(&sav, argv[2])) {
+		fprintf(stderr, "failed extracting file\n");
 		goto bad;
 	}
 

@@ -142,6 +142,11 @@ int save_init(save *sav, char *path) {
 #define TBL_OFF(x) (sav->header.data_region_offset + sav->header. x## table_info.starting_block_index * sav->header.data_region_blocksize)
 #define TBL_SIZE(x) (sav->header.data_region_blocksize * sav->header. x## table_info.block_count)
 
+	printf("dir entries offset: %X\n", TBL_OFF(dir));
+	printf("dir entries size: %X\n", TBL_SIZE(dir));
+	printf("file entries offset: %X\n", TBL_OFF(file));
+	printf("file entries size: %X\n", TBL_SIZE(file));
+
 	if (!read_block((void **)&sav->dir_entries, sav->file, TBL_OFF(dir), TBL_SIZE(dir)) ||
 		!read_block((void **)&sav->file_entries, sav->file, TBL_OFF(file), TBL_SIZE(file))) {
 		fprintf(stderr, "failed reading file/dir entries\n");
@@ -233,6 +238,7 @@ static int save_extract_recurse(save *save, save_dir_entry *root, char *path, in
 		cdata.size = file->ent.file_size;
 		if (!cdata.file) {
 			free(npath);
+			printf("failed creating file: %s with size %d %X\n", npath, cdata.size, cdata.size);
 			perror("failed creating file");
 			return 1;
 		}

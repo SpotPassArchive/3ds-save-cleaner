@@ -48,7 +48,7 @@ typedef struct __attribute__((packed)) save_fs_header {
 	u32 data_region_block_count; /* 0x60-0x64 */
 	u32 __pad4; /* 0x64-0x68 */
 	table_info dirtable_info; /* 0x68-0x74 */
-	u32 __pad5; /* 0x74-0x78 */
+	/*u32 __pad5;  0x74-0x78 */
 	table_info filetable_info; /* 0x78-0x84 */
 	u32 __pad6; /* 0x84-0x88 */
 } save_fs_header;
@@ -66,9 +66,9 @@ typedef struct __attribute__((packed)) save_fat_entry_half {
  */
 /*
  * for extended node,
- * - U.index --> index of first entry in this node.
+ * - U.index --> index of previous entry in this node.
  * - U.flag --> always set.
- * - V.index --> index of last entry in this node.
+ * - V.index --> index of next entry in this node.
  * - V.flag -->  never set.
  */
 typedef struct __attribute__((packed)) save_fat_entry {
